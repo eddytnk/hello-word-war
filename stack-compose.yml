@@ -1,0 +1,23 @@
+
+version: "3.8"
+services:
+  HelloWordApp:
+    image: postgres:9.4
+    secrets:
+      - psql_user
+      - psql_pwd
+    environment:
+      POSTGRES_USER_FILE=/run/secrets/psql_user
+      POSTGRES_PASSWORD_FILE=/run/secrets/psql_pwd
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost"]
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+secret:
+  psql_user:
+    external: true
+  psql_pwd:
+    external: true
