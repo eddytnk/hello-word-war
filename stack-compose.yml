@@ -1,13 +1,13 @@
 version: "3.8"
 services:
   HelloWordApp:
-    image: postgres:9.4
+    image: eddytnk/myapp:latest
     secrets:
       - hello_world_message
     environment:
       HELLO_MESSAGE=/run/secrets/hello_world_message
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/hello-word/up"]
+      test: ["CMD", "curl", "-f", "http://localhost/hello-word/health"]
       interval: 30s
       timeout: 10s
       retries: 3
