@@ -1,23 +1,18 @@
-
 version: "3.8"
 services:
   HelloWordApp:
     image: postgres:9.4
     secrets:
-      - psql_user
-      - psql_pwd
+      - hello_world_message
     environment:
-      POSTGRES_USER_FILE=/run/secrets/psql_user
-      POSTGRES_PASSWORD_FILE=/run/secrets/psql_pwd
+      HELLO_MESSAGE=/run/secrets/hello_world_message
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost"]
-      interval: 1m30s
+      test: ["CMD", "curl", "-f", "http://localhost/hello-word/up"]
+      interval: 30s
       timeout: 10s
       retries: 3
-      start_period: 40s
+      start_period: 15s
 
 secret:
-  psql_user:
-    external: true
-  psql_pwd:
-    external: true
+  hello_world_message:
+    file: ./hello_world_message
