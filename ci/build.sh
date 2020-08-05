@@ -6,3 +6,4 @@ docker run -d -p 8080:8080 eddytnk/myapp
 
 
 #docker run --env-file=/Users/edwardtanko/workspace/hello-world/host/config.env -p 8080:8080 eddytnk/myapp
+#scp stack-compose.yml root@206.189.237.50:/root/demo

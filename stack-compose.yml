@@ -15,4 +15,4 @@ services:
 
 secret:
   hello_world_message:
-    file: ./hello_world_message
+    file: ./hello_world_message.txt
