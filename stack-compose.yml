@@ -1,18 +1,26 @@
 version: "3.8"
-services:
-  HelloWordApp:
-    image: eddytnk/myapp:latest
-    secrets:
-      - hello_world_message
-    environment:
-      HELLO_MESSAGE=/run/secrets/hello_world_message
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost/hello-word/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 15s
 
-secret:
-  hello_world_message:
-    file: ./hello_world_message.txt
+services:
+    HelloWordApp:
+        image: eddytnk/myapp:latest
+        ports:
+          - 8080:8080
+        deploy:
+            mode: replicated # global (exactly one container per swarm node) or replicated (a specified number of containers).
+            replicas: 1
+            restart_policy:
+                condition: on-failure
+        secrets:
+            - hello_world_message
+        environment:
+            HELLO_MESSAGE: /run/secrets/hello_world_message
+        healthcheck:
+            test: curl --fail --silent http://localhost:8080/hello-world/health | jq --exit-status '.status == "UP"' || exit 1
+            interval: 30s
+            timeout: 10s
+            retries: 3
+            start_period: 15s
+secrets:
+    hello_world_message:
+        file: ./hello_world_message.txt
+
